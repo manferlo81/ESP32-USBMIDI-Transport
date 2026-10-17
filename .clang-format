@@ -1,0 +1,23 @@
+BasedOnStyle: Google
+Language: Cpp
+Standard: c++17
+
+# End of Line (EOL)
+LineEnding: LF
+
+# Indent
+IndentAccessModifiers: true
+IndentWidth: 4
+TabWidth: 4
+UseTab: Never
+
+# Line Length
+ColumnLimit: 0
+
+# Includes
+IncludeBlocks: Preserve
+
+# Single line statements
+AllowShortFunctionsOnASingleLine: Empty
+AllowShortIfStatementsOnASingleLine: WithoutElse
+AllowShortCaseLabelsOnASingleLine: true
