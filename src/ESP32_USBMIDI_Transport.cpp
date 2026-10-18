@@ -3,26 +3,24 @@
 #include <USB.h>
 #include <USBMIDI.h>
 
-static inline USBMIDI create_USBMIDI_instance(const char* name) {
-    return (name == nullptr) ? USBMIDI() : USBMIDI(name);
+ESP32_USBMIDI_Transport::ESP32_USBMIDI_Transport(const char* name) : p__USBMIDI() {
+    ESP32_USBMIDI_Transport::setDeviceName(name);
 }
-
-ESP32_USBMIDI_Transport::ESP32_USBMIDI_Transport(const char* name) : p__usbMIDI(create_USBMIDI_instance(name)) {}
 
 void ESP32_USBMIDI_Transport::begin(void) {
     USB.begin();
-    p__usbMIDI.begin();
+    p__USBMIDI.begin();
 }
 
 void ESP32_USBMIDI_Transport::begin(const uint32_t) {
     begin();
 }
 
-bool ESP32_USBMIDI_Transport::beginTransmission(const uint8_t) {
+bool ESP32_USBMIDI_Transport::beginTransmission(const uint8_t) const {
     return true;
 }
 
-void ESP32_USBMIDI_Transport::endTransmission(void) {}
+void ESP32_USBMIDI_Transport::endTransmission(void) const {}
 
 uint8_t ESP32_USBMIDI_Transport::read(void) {  //
 
@@ -64,7 +62,7 @@ void ESP32_USBMIDI_Transport::write(const uint8_t value) {  //
         packet.byte3 = (p__TX_Buffer_Length > 2) ? p__TX_Packet_Buffer[2] : 0;
 
         // Send packet
-        p__usbMIDI.writePacket(&packet);
+        p__USBMIDI.writePacket(&packet);
 
         // Reset buffer
         p__TX_Index = 0;
@@ -80,7 +78,7 @@ unsigned ESP32_USBMIDI_Transport::available(void) {  //
     midiEventPacket_t packet;
 
     // While there there is a packet
-    while (p__usbMIDI.readPacket(&packet)) {  //
+    while (p__USBMIDI.readPacket(&packet)) {  //
 
         // Determine length
         uint8_t len = 3;
@@ -105,7 +103,8 @@ unsigned ESP32_USBMIDI_Transport::available(void) {  //
     // Return number of bytes in queue
     if (p__RX_Tail < p__RX_Head) return RX_BUFFER_SIZE - p__RX_Head + p__RX_Tail;
     return p__RX_Tail - p__RX_Head;
-}
+
+}  //
 
 void ESP32_USBMIDI_Transport::p__RX_addByteToQueue(const uint8_t value) {
     p__RX_Queue[p__RX_Tail] = value;

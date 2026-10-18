@@ -17,7 +17,7 @@ class ESP32_USBMIDI_Transport {  //
         uint8_t p__RX_Tail = 0;
 
     private:
-        USBMIDI p__usbMIDI;
+        USBMIDI p__USBMIDI;
 
     public:
         bool thruActivated = false;
@@ -27,8 +27,8 @@ class ESP32_USBMIDI_Transport {  //
         void begin(void);
         void begin(const uint32_t baud);
 
-        bool beginTransmission(const uint8_t type);
-        void endTransmission(void);
+        bool beginTransmission(const uint8_t type) const;
+        void endTransmission(void) const;
 
         uint8_t read(void);
         void write(const uint8_t value);
@@ -37,4 +37,8 @@ class ESP32_USBMIDI_Transport {  //
 
     private:
         void p__RX_addByteToQueue(const uint8_t value);
-};
+
+    public:
+        static void setDeviceName(const char* deviceName);
+
+};  //
