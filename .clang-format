@@ -6,10 +6,11 @@ Standard: c++17
 LineEnding: LF
 
 # Indent
-IndentAccessModifiers: true
 IndentWidth: 4
 TabWidth: 4
 UseTab: Never
+IndentAccessModifiers: false
+AccessModifierOffset: -4
 
 # Line Length
 ColumnLimit: 0
