@@ -25,27 +25,26 @@ public:
     bool thruActivated = false;
 
 public:
-    ESP32_USBMIDI_Transport(const char* name = nullptr);
+    ESP32_USBMIDI_Transport(const char* deviceName = nullptr);
 
-    void begin(void);
-    void begin(const uint32_t baud);
+    void begin(const uint32_t baud = 0);
 
 public:
     bool beginTransmission(const uint8_t type) const;
     void endTransmission(void) const;
 
+private:
+    void p__RX_addByteToQueue(const uint8_t value);
+
 public:
     unsigned available(void);
     uint8_t read(void);
 
+private:
+    void p__TX_WritePacket();
+
 public:
     void write(const uint8_t value);
-
-private:
-    bool p__TX_WritePacket();
-
-private:
-    void p__RX_addByteToQueue(const uint8_t value);
 
 public:
     static void setDeviceName(const char* deviceName);
